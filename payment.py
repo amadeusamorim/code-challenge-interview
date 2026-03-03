@@ -18,3 +18,17 @@ class Payment:
             f"{self.actor.username} -> {self.target.username}, "
             f"${self.amount:.2f}, '{self.note}')"
         )
+
+class FriendshipEvent:
+    
+    def __init__(self, user, new_friend):
+        self.id = str(uuid.uuid4())
+        self.user = user
+        self.new_friend = new_friend
+        self.created_at = datetime.now()
+
+    def __repr__(self):
+        return (
+            f"FriendshipEvent (id={self.id[:8]}, "
+            f"{self.user.username} <=> {self.new_friend.username})"
+        )

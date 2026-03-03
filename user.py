@@ -30,6 +30,16 @@ class User:
         else:
             raise CreditCardException('Invalid credit card number.')
 
+    def add_friend(self, new_friend):
+        if new_friend == self:
+            return
+        if new_friend not in self.friends:
+            self.friends.append(new_friend)
+            new_friend.friends.append(self)
+            event = FriendshipEvent(self, new_friend)
+            self.feed.add_event(event)
+            new_friend.feed.add_event(event)
+
     def retrieve_feed(self):
         return self.feed
 

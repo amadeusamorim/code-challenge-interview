@@ -1,6 +1,6 @@
 from exceptions import PaymentException
 from user import User
-from payment import Payment
+from payment import Payment, FriendshipEvent
 
 class MiniVenmo:
     def create_user(self, username: str, balance: float, credit_card_number: str) -> User:

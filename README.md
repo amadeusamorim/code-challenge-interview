@@ -12,3 +12,12 @@
 
   4. Now users should be able to add friends. Implement the `User.add_friend()` method to allow users to add friends.
   5. Now modify the methods involved in rendering the feed to also show when user's added each other as friends.
+
+
+**Tests working:**
+
+Mini Venmo:
+![image_1772563181417.png](./image_1772563181417.png "image_1772563181417.png")
+
+User:
+![image_1772563161862.png](./image_1772563161862.png "image_1772563161862.png")
