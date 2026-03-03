@@ -23,6 +23,13 @@ class MiniVenmo:
                     f"{event.new_friend.username} are now friends"
                 )
 
+    def add_friend(self, new_friend):
+        if new_friend == self:
+            return
+        if new_friend not in self.friends:
+            self.friends.append(new_friend)
+            new_friend.friends.append(self)
+
     @classmethod
     def run(cls):
         venmo = cls()

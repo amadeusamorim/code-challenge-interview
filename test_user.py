@@ -38,3 +38,23 @@ class TestPayments(unittest.TestCase):
     def test_zero_raises(self):
         with self.assertRaises(PaymentException):
             self.bobby.pay(self.carol, 0, "Nope")
+
+
+class TestFriends(unittest.TestCase):
+    def setUp(self):
+        self.bobby = User("Bobby")
+        self.carol = User("Carol")
+    
+    def test_bidirectional(self):
+        self.bobby.add_friend(self.carol)
+        self.assertIn(self.carol, self.bobby.friends)
+        self.assertIn(self.bobby, self.carol.friends)
+
+    def test_no_duplicate(self):
+        self.bobby.add_friend(self.carol)
+        self.bobby.add_friend(self.carol)
+        self.assertEqual(len(self.bobby.friends), 1)
+
+    def test_self_friend(self):
+        self.bobby.add_friend(self.bobby)
+        self.assertEqual(len(self.bobby.friends), 0)
