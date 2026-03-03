@@ -30,20 +30,24 @@ class User:
         else:
             raise CreditCardException('Invalid credit card number.')
 
-    def pay(self, target, amount, note):
-        # TODO: add logic to pay with card or balance
-        pass
+    def pay(self, target, amount: float, note: str):
+        amount = float(amount)
+        if self.balance >= amount:
+            payment = self.pay_with_balance(target, amount, note)
+        else:
+            payment = self.pay_with_card(target, amount, note)
+        
+        self.feed.add_event(payment)
+        target.feed.add_event(payment)
+        
+        return payment
 
     def pay_with_card(self, target, amount, note):
         amount = float(amount)
 
-        if self.username == target.username:
-            raise PaymentException('User cannot pay themselves.')
+        self._validate_payment(target, amount)
 
-        elif amount <= 0.0:
-            raise PaymentException('Amount must be a non-negative number.')
-
-        elif self.credit_card_number is None:
+        if self.credit_card_number is None:
             raise PaymentException('Must have a credit card to make a payment.')
 
         self._charge_credit_card(self.credit_card_number)
@@ -53,8 +57,23 @@ class User:
         return payment
 
     def pay_with_balance(self, target, amount, note):
-        # TODO: add code here
-        pass
+        amount = float(amount)
+        self._validate_payment(target, amount)
+        if self.balance < amount:
+            raise PaymentException("Insufficient balance to make this payment")
+
+        self.balance -= amount
+        payment = Payment(amount, self, target, note)
+        target.add_to_balance(amount)
+
+        return payment
+
+    def _validate_payment(self, target, amount: float):
+        if self.username == target.username:
+            raise PaymentException('User cannot pay themselves.')
+
+        elif amount <= 0.0:
+            raise PaymentException('Amount must be a non-negative number.')
 
     def _is_valid_credit_card(self, credit_card_number):
         return credit_card_number in ["4111111111111111", "4242424242424242"]
