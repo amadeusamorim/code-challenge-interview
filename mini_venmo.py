@@ -11,10 +11,17 @@ class MiniVenmo:
         return user
 
     def render_feed(self, feed):
-        # Bobby paid Carol $5.00 for Coffee
-        # Carol paid Bobby $15.00 for Lunch
-        # TODO: add code here
-        pass
+        for event in feed:
+            if isinstance(event, Payment):
+                print(
+                    f"{event.actor.username} paid {event.target.username} "
+                    f"${event.amount:.2f} for {event.note}"
+                )
+            elif isinstance(event, FriendshipEvent):
+                print(
+                    f"{event.user.username} and "
+                    f"{event.new_friend.username} are now friends"
+                )
 
     @classmethod
     def run(cls):

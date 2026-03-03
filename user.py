@@ -30,6 +30,9 @@ class User:
         else:
             raise CreditCardException('Invalid credit card number.')
 
+    def retrieve_feed(self):
+        return self.feed
+
     def pay(self, target, amount: float, note: str):
         amount = float(amount)
         if self.balance >= amount:
